@@ -138,13 +138,16 @@ static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TA
 
 /* commands */
 static const char *termcmd[] = { "foot", NULL };
+static const char *cropcmd[] = {"sh","-c", "grim -g \"$(slurp -d)\" - | tee ~/Pictures/screenshots/screenshot_$(date +'%Y%m%d_%H%M%S').png | wl-copy", NULL };
 /* Screenshot cropped selection to clipboard + Pictures folder */
-static const char *shotcmd[] = { "sh", "-c", "grim -g \"$(slurp -d)\" - | tee ~/Pictures/screenshot_$(date +'%Y%m%d_%H%M%S').png | wl-copy", NULL };
+static const char *shotcmd[] = { "sh", "-c", "grim -o eDP-1 - | tee ~/Pictures/screenshots/screenshot_$(date +'%Y%m%d_%H%M%S').png | wl-copy", NULL };
 static const char *menucmd[] = { "wmenu-run","-f","JetBrainsMono Nerd Font 12", NULL };
 
 static const Key keys[] = {
 	/* Note that Shift changes certain key codes: 2 -> at, etc. */
 	/* modifier                  key                  function          argument */
+    {  0, 						 XKB_KEY_Print, 	  spawn, {.v = cropcmd} },
+    { MODKEY,					 XKB_KEY_v,			  spawn, {.v = shotcmd} },
 	{ MODKEY,                    XKB_KEY_d,           spawn,            {.v = menucmd} },
 	{ MODKEY,					 XKB_KEY_Return,      spawn,            {.v = termcmd} },
 	{ MODKEY,                    XKB_KEY_j,           focusstack,       {.i = +1} },

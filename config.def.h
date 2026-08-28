@@ -136,6 +136,10 @@ static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TA
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
+/*audio bind*/
+static const char *mutecmd[] = { "amixer", "set", "Master", "toggle", NULL };
+static const char *volupcmd[] = { "amixer", "set", "Master", "5%+", NULL };
+static const char *voldowncmd[] = { "amixer", "set", "Master", "5%-", NULL };
 /* commands */
 static const char *termcmd[] = { "foot", NULL };
 static const char *cropcmd[] = {"sh","-c", "grim -g \"$(slurp -d)\" - | tee ~/Pictures/screenshots/screenshot_$(date +'%Y%m%d_%H%M%S').png | wl-copy", NULL };
@@ -146,7 +150,10 @@ static const char *menucmd[] = { "wmenu-run","-f","JetBrainsMono Nerd Font 12", 
 static const Key keys[] = {
 	/* Note that Shift changes certain key codes: 2 -> at, etc. */
 	/* modifier                  key                  function          argument */
-    {  0, 						 XKB_KEY_Print, 	  spawn, {.v = cropcmd} },
+    { 0, 						 XKB_KEY_Print, 	  spawn, {.v = cropcmd} },
+	{ 0,  						 XKB_KEY_XF86AudioMute,        spawn, {.v = mutecmd} },
+    { 0, 						 XKB_KEY_XF86AudioRaiseVolume, spawn, {.v = volupcmd} },
+    { 0, 						 XKB_KEY_XF86AudioLowerVolume, spawn, {.v = voldowncmd} },
     { MODKEY,					 XKB_KEY_v,			  spawn, {.v = shotcmd} },
 	{ MODKEY,                    XKB_KEY_d,           spawn,            {.v = menucmd} },
 	{ MODKEY,					 XKB_KEY_Return,      spawn,            {.v = termcmd} },
